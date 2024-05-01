@@ -1,3 +1,7 @@
+use std::{
+    fmt,
+    ops::{Add, Div, Mul, Sub},
+};
 pub struct Vec3 {
     pub e: [f64; 3],
 }
@@ -30,11 +34,11 @@ impl Vec3 {
 
        `other` - reference of another vector
     */
-    pub fn dot(&self, &other: Vec3) -> f64 {
+    pub fn dot(&self, &other: &Vec3) -> f64 {
         self.e[0] * other.e[0] + self.e[1] * other.e[1] + self.e[2] * other.e[2]
     }
 
-    pub fn cross(&self, &other: Vec3) -> f64 {
+    pub fn cross(&self, other: &Vec3) -> Vec3 {
         Vec3::new(
             self.e[1] * other.e[2] - self.e[2] * other.e[1],
             self.e[2] * other.e[0] - self.e[0] * other.e[2],
@@ -48,9 +52,9 @@ impl Vec3 {
 }
 
 impl Add for Vec3 {
-    type output = Self;
+    type Output = Self;
 
-    fn add(self, other: Vec3) -> Self::output {
+    fn add(self, other: Vec3) -> Self::Output {
         Vec3::new(
             self.e[0] + other.e[0],
             self.e[1] + other.e[1],
@@ -59,10 +63,10 @@ impl Add for Vec3 {
     }
 }
 
-impl Subtract for Vec3 {
-    type output = Self;
+impl Sub for Vec3 {
+    type Output = Self;
 
-    fn subtract(self, other: Vec3) -> Self::output {
+    fn sub(self, other: Vec3) -> Self::Output {
         Vec3::new(
             self.e[0] - other.e[0],
             self.e[1] - other.e[1],
@@ -72,8 +76,8 @@ impl Subtract for Vec3 {
 }
 
 // multiplies vector by scalar
-impl Multiply<f64> for Vec3 {
-    type output = Self;
+impl Mul<f64> for Vec3 {
+    type Output = Self;
 
     fn mul(self, t: f64) -> Self::Output {
         Vec3::new(self.e[0] * t, self.e[1] * t, self.e[2] * t)
@@ -84,7 +88,7 @@ impl Multiply<f64> for Vec3 {
 impl Mul<Vec3> for Vec3 {
     type Output = Self;
 
-    fn mul(self, t: f64) -> Self::Output {
+    fn mul(self, other: Vec3) -> Self::Output {
         Vec3::new(
             self.e[0] * other.e[0],
             self.e[1] * other.e[1],
